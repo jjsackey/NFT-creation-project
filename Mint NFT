@@ -1,0 +1,19 @@
+import CryptoPoops from 0x05
+import NonFungibleToken from 0x05
+
+transaction(recipient: Address,name: String, favouriteFood: String, luckyNumber: Int) {
+
+ prepare(acct: AuthAccount) {
+     let nftMinter = acct.borrow<&CryptoPoops.Minter>(from: /storage/Minter)!
+    
+     let publicReference = getAccount(recipient).getCapability(/public/Collection)
+                           .borrow<&CryptoPoops.Collection{CryptoPoops.CollectionPublic}>()
+                           ?? panic("This account does not have a collection") 
+
+    publicReference.deposit(token: <- nftMinter.createNFT(name: name, favouriteFood: favouriteFood, luckyNumber: luckyNumber))
+    }                        
+ 
+ execute {
+   log("stored newly minted NFT into Collection")
+   }
+}
