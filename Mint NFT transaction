@@ -6,8 +6,7 @@ transaction(recipient: Address,name: String, favouriteFood: String, luckyNumber:
  prepare(acct: AuthAccount) {
      let nftMinter = acct.borrow<&CryptoPoops.Minter>(from: /storage/Minter)!
     
-     let publicReference = getAccount(recipient).getCapability(/public/Collection)
-                           .borrow<&CryptoPoops.Collection{CryptoPoops.CollectionPublic}>()
+     let publicReference = getAccount(recipient).getCapability(/public/Collection).borrow<&CryptoPoops.Collection{CryptoPoops.CollectionPublic}>()
                            ?? panic("This account does not have a collection") 
 
     publicReference.deposit(token: <- nftMinter.createNFT(name: name, favouriteFood: favouriteFood, luckyNumber: luckyNumber))
