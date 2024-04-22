@@ -2,8 +2,7 @@ import CryptoPoops from 0x05
 import NonFungibleToken from 0x05
 
 pub fun main(address: Address, id: UInt64) {
-  let publicReference = getAccount(address).getCapability(/public/Collection)
-                        .borrow<&CryptoPoops.Collection{CryptoPoops.CollectionPublic}>()
+  let publicReference = getAccount(address).getCapability(/public/Collection).borrow<&CryptoPoops.Collection{CryptoPoops.CollectionPublic}>()
                         ?? panic ("The address does not have a Collection.")
 
   let nftRef: &CryptoPoops.NFT = publicReference.borrowAuthNFT(id:id)
